@@ -19,10 +19,14 @@ import javax.persistence.Table;
 public class Item {
     // item fields
     private int budget_id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int item_id;
     private String item_name;
     private String description;
     private double item_cost;
+    
+    public Item(){}
     
     public Item(int budget_id, int item_id, String item_name, String description, double item_cost){
         this.budget_id = budget_id;
@@ -34,8 +38,7 @@ public class Item {
     
     
     // getters
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    
     public int getItemId(){
         return this.item_id;
     }

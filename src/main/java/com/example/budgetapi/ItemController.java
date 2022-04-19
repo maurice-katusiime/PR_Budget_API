@@ -25,31 +25,48 @@ import org.springframework.web.bind.annotation.RestController;
  */
 // Handle HTTP requests
 @CrossOrigin(origins = "*")
-@RestController
+
 @RequestMapping(path = "/budgetapi/v1")
+@RestController
 public class ItemController {
     @Autowired //get the repository to handle the data
-    //BudgetService budgetService;
+    //BudgetRepository budgetRepository;
     ItemRepository itemRepository;
+    BudgetRepository budgetRepository;
     
-    //retrieve budget list
-    @GetMapping(path = "/budget_items")
-    public List<Item> getBudgetItem(){
-        //show budget items that belong to a specific budget
-        return itemRepository.findAll();
-    }
+    //retrieve budget items
+    @GetMapping(path = "/get")
+    public List<Item> items(){
+        //show all budget items 
+         return itemRepository.findAll();
+   }
     
-    // create a budget 
+    
+    
+    
+    // create a budget item
     @PostMapping(path= "/create_budget_item")
     public Item createBudgetItem(@RequestBody Item item){
         return itemRepository.save(item);
     }
     
+    // get budget item belonging to a specific budget
+    @GetMapping("/get_single_budget_item")
+    public ResponseEntity<List> findItemByBudgetId(Integer budget_id){
+            // retrieve employee object from db
+            List item = itemRepository.findItemByBudgetId(1);
+                    
+            //.orElseThrow(() -> new ResourceNotFoundException("Item does not exist with that id :" + budget_id));
+        
+            return  ResponseEntity.ok(item);
+        
+    } 
+    
     
     
     // update budget item
     @PutMapping("/update_budget_item/{item_id}")
-    public ResponseEntity<Item> updateItem (@RequestBody Item itemDetails, @PathVariable Integer item_id){
+    public ResponseEntity<Item> updateItem (@RequestBody Item itemDetails, @PathVariable int item_id){
         // retrieve employee by id
         Item item = itemRepository.findById(item_id).
                 orElseThrow(() -> new ResourceNotFoundException("Item not found with id :" + item_id));
@@ -64,10 +81,10 @@ public class ItemController {
         
         return ResponseEntity.ok(updatedBudgetItem);
     }
-    
+       
     // delete budget item 
     @DeleteMapping("/delete_budget_item/{item_id}")
-    public ResponseEntity<Map<String, Boolean>> deleteBudgetItem(@PathVariable Integer item_id){
+    public ResponseEntity<Map<String, Boolean>> deleteBudgetItem(@PathVariable int item_id){
         Item item = itemRepository.findById(item_id).
                 orElseThrow(() -> new ResourceNotFoundException("Item doesn't exist with id :" + item_id));
         
@@ -84,8 +101,4 @@ public class ItemController {
 
 
 
-
-
-
-    
 }
