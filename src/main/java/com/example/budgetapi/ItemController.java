@@ -51,10 +51,10 @@ public class ItemController {
     }
     
     // get budget item belonging to a specific budget
-    @GetMapping("/get_single_budget_item")
-    public ResponseEntity<List> findItemByBudgetId(Integer budget_id){
+    @GetMapping("/get_single_budget_item/{budget_id}")
+    public ResponseEntity<List> findItemByBudgetId(@PathVariable Integer budget_id){
             // retrieve employee object from db
-            List item = itemRepository.findItemByBudgetId(1);
+            List item = itemRepository.findItemByBudgetId(budget_id);
                     
             //.orElseThrow(() -> new ResourceNotFoundException("Item does not exist with that id :" + budget_id));
         
