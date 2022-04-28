@@ -63,7 +63,7 @@ public class Item {
         this.budget_id = budget_id;
     }
     
-    public void setItemName(String item){
+    public void setItemName(String item_name){
         this.item_name = item_name;
     }
     
